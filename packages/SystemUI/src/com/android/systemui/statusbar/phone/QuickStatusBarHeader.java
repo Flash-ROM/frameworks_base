@@ -18,11 +18,15 @@ package com.android.systemui.statusbar.phone;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.net.Uri;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,6 +64,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     private TextView mAlarmStatus;
     private View mAlarmStatusCollapsed;
+    private View mClock;
+    private View mDate;
 
     private QSPanel mQsPanel;
 
@@ -109,6 +115,11 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mDateTimeGroup = (ViewGroup) findViewById(R.id.date_time_group);
         mDateTimeGroup.setPivotX(0);
         mDateTimeGroup.setPivotY(0);
+        mClock = findViewById(R.id.clock);
+        mClock.setOnClickListener(this);
+        mDate = findViewById(R.id.date);
+        mDate.setOnClickListener(this);
+
         mShowFullAlarm = getResources().getBoolean(R.bool.quick_settings_show_full_alarm);
 
         mExpandIndicator = (ExpandableIndicator) findViewById(R.id.expand_indicator);
@@ -352,12 +363,29 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
             if (showIntent != null && showIntent.isActivity()) {
                 mActivityStarter.startActivity(showIntent.getIntent(), true /* dismissShade */);
             }
+        } else if (v == mClock) {
+            startClockActivity();
+        } else if (v == mDate) {
+            startDateActivity();
         }
     }
 
     private void startSettingsActivity() {
         mActivityStarter.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS),
                 true /* dismissShade */);
+    }
+
+    private void startClockActivity() {
+        mActivityStarter.startActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS),
+                true /* dismissShade */);
+    }
+
+    private void startDateActivity() {
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        ContentUris.appendId(builder, System.currentTimeMillis());
+        Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+        mActivityStarter.startActivity(intent, true /* dismissShade */);
     }
 
     @Override
