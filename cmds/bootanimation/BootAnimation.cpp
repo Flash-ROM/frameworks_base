@@ -335,6 +335,7 @@ bool BootAnimation::threadLoop()
     mFlingerSurface.clear();
     mFlingerSurfaceControl.clear();
     eglTerminate(mDisplay);
+    eglReleaseThread();
     IPCThreadState::self()->stopProcess();
     return r;
 }
