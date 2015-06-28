@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -101,6 +102,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private float mExpansionAmount;
     private QSTileHost mHost;
     private boolean mShowFullAlarm;
+    protected Vibrator mVibrator;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -142,12 +144,20 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mMultiUserSwitch.setOnLongClickListener(this);
         mMultiUserAvatar = (ImageView) mMultiUserSwitch.findViewById(R.id.multi_user_avatar);
 
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
         // RenderThread is doing more harm than good when touching the header (to expand quick
         // settings), so disable it for this view
         ((RippleDrawable) mSettingsButton.getBackground()).setForceSoftware(true);
         ((RippleDrawable) mExpandIndicator.getBackground()).setForceSoftware(true);
 
         updateResources();
+    }
+
+    public void vibrateheader(int duration) {
+        if (mVibrator != null) {
+            if (mVibrator.hasVibrator()) { mVibrator.vibrate(duration); }
+        }
     }
 
     @Override
@@ -387,6 +397,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         } else if (v == mSettingsButton) {
             startSettingsLongClickActivity();
         }
+        vibrateheader(20);
         return false;
     }
 
