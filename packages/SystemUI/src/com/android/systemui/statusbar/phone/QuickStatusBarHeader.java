@@ -27,9 +27,11 @@ import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +54,7 @@ import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChangedListener;
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
-        NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener {
+        NextAlarmChangeCallback, OnClickListener, OnLongClickListener, OnUserInfoChangedListener {
 
     private static final String TAG = "QuickStatusBarHeader";
 
@@ -117,8 +119,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mDateTimeGroup.setPivotY(0);
         mClock = findViewById(R.id.clock);
         mClock.setOnClickListener(this);
+        mClock.setOnLongClickListener(this);
         mDate = findViewById(R.id.date);
         mDate.setOnClickListener(this);
+        mDate.setOnLongClickListener(this);
 
         mShowFullAlarm = getResources().getBoolean(R.bool.quick_settings_show_full_alarm);
 
@@ -370,6 +374,16 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == mClock) {
+            startClockLongClickActivity();
+        } else if (v == mDate) {
+            startDateLongClickActivity();
+        }
+        return false;
+    }
+
     private void startSettingsActivity() {
         mActivityStarter.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS),
                 true /* dismissShade */);
@@ -380,11 +394,22 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 true /* dismissShade */);
     }
 
+    private void startClockLongClickActivity() {
+        mActivityStarter.startActivity(new Intent(AlarmClock.ACTION_SET_ALARM),
+                true /* dismissShade */);
+    }
+
     private void startDateActivity() {
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
         builder.appendPath("time");
         ContentUris.appendId(builder, System.currentTimeMillis());
         Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+        mActivityStarter.startActivity(intent, true /* dismissShade */);
+    }
+
+    private void startDateLongClickActivity() {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setData(Events.CONTENT_URI);
         mActivityStarter.startActivity(intent, true /* dismissShade */);
     }
 
