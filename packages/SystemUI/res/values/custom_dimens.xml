@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2016 The Pure Nexus Project
+     Copyright (C) 2016 The OmniROM Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -31,4 +32,8 @@
     <dimen name="phone_bottom_padding">40dp</dimen>
     <dimen name="phone_width">320dp</dimen>
     <dimen name="phone_height">420dp</dimen>
+
+    <dimen name="keyguard_shortcut_item_margin">10dp</dimen>
+
+    <dimen name="battery_level_text_size_small">12sp</dimen>
 </resources>
