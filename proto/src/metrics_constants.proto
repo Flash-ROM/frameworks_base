@@ -2221,6 +2221,9 @@ message MetricsEvent {
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
 
+    // Quick setting tiles
+    QUICK_SETTINGS = 412;
+
     // Flash Metrics
     FLASH = 420;
   }
