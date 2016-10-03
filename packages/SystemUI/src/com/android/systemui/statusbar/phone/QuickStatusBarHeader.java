@@ -46,7 +46,6 @@ import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.NextAlarmController.NextAlarmChangeCallback;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChangedListener;
-import com.android.systemui.tuner.TunerService;
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener {
@@ -57,8 +56,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     private ActivityStarter mActivityStarter;
     private NextAlarmController mNextAlarmController;
-    private SettingsButton mSettingsButton;
-    protected View mSettingsContainer;
+    private View mSettingsButton;
 
     private TextView mAlarmStatus;
     private View mAlarmStatusCollapsed;
@@ -117,8 +115,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
         mHeaderQsPanel = (QuickQSPanel) findViewById(R.id.quick_qs_panel);
 
-        mSettingsButton = (SettingsButton) findViewById(R.id.settings_button);
-        mSettingsContainer = findViewById(R.id.settings_button_container);
+        mSettingsButton = findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(this);
 
         mAlarmStatusCollapsed = findViewById(R.id.alarm_status_collapsed);
@@ -187,10 +184,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     protected void updateSettingsAnimator() {
         mSettingsAlpha = new TouchAnimator.Builder()
-                .addFloat(mSettingsContainer, "translationY", -mGearTranslation, 0)
+                .addFloat(mSettingsButton, "translationY", -mGearTranslation, 0)
                 .addFloat(mMultiUserSwitch, "translationY", -mGearTranslation, 0)
                 .addFloat(mSettingsButton, "rotation", -90, 0)
-                .addFloat(mSettingsContainer, "alpha", 0, 1)
+                .addFloat(mSettingsButton, "alpha", 0, 1)
                 .addFloat(mMultiUserSwitch, "alpha", 0, 1)
                 .setStartDelay(QSAnimator.EXPANDED_TILE_DELAY)
                 .build();
@@ -302,9 +299,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         updateAlarmVisibilities();
         mEmergencyOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly
                 ? View.VISIBLE : View.INVISIBLE);
-        mSettingsContainer.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
-        mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
-                TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
+        mSettingsButton.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers()
                 ? View.VISIBLE : View.INVISIBLE);
     }
@@ -351,24 +346,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         if (v == mSettingsButton) {
             MetricsLogger.action(mContext,
                     MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH);
-            if (mSettingsButton.isTunerClick()) {
-                mHost.startRunnableDismissingKeyguard(() -> post(() -> {
-                    if (TunerService.isTunerEnabled(mContext)) {
-                        TunerService.showResetRequest(mContext, () -> {
-                            // Relaunch settings so that the tuner disappears.
-                            startSettingsActivity();
-                        });
-                    } else {
-                        Toast.makeText(getContext(), R.string.tuner_toast,
-                                Toast.LENGTH_LONG).show();
-                        TunerService.setTunerEnabled(mContext, true);
-                    }
-                    startSettingsActivity();
-
-                }));
-            } else {
-                startSettingsActivity();
-            }
+            startSettingsActivity();
         } else if (v == mAlarmStatus && mNextAlarm != null) {
             PendingIntent showIntent = mNextAlarm.getShowIntent();
             if (showIntent != null && showIntent.isActivity()) {
