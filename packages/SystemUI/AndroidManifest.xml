@@ -268,7 +268,7 @@
                   android:theme="@style/TunerSettings"
                   android:label="@string/navbar_tuner_title"
                   android:process=":tuner"
-                  android:parentActivityName="com.flash.settings.fragments.NavBarSettings""
+                  android:parentActivityName="com.flash.settings.fragments.NavBarSettings"
                   android:exported="true">
         </activity>
 
