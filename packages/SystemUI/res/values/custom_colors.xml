@@ -15,6 +15,8 @@
      limitations under the License.
 -->
 <resources>
+    <!-- carrier label color -->
+    <color name="status_bar_carrier_color">#FFFFFFFF</color>
     <!-- Navigation button ripple color -->
     <color name="navbutton_ripple_color">#FFFFFFFF</color>
     <!-- QS edit page background color -->
