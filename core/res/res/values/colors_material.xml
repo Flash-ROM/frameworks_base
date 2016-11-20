@@ -67,7 +67,7 @@
     <!-- Primary & accent colors -->
     <eat-comment />
 
-    <color name="material_grey_900">#ff212121</color>
+    <color name="material_grey_900">#ff2a2c31</color><!-- Pixel dark grey -->
     <color name="material_grey_850">#ff303030</color>
     <color name="material_grey_800">#ff424242</color>
     <color name="material_grey_600">#ff757575</color>
@@ -76,12 +76,12 @@
     <color name="material_grey_50">#fffafafa</color>
 
     <color name="material_deep_teal_100">#ffb2dfdb</color>
-    <color name="material_deep_teal_200">#ff80cbc4</color>
+    <color name="material_deep_teal_200">#ff4285f4</color><!-- Pixel blue -->
     <color name="material_deep_teal_300">#ff4db6ac</color>
-    <color name="material_deep_teal_500">#ff009688</color>
+    <color name="material_deep_teal_500">#ff4285f4</color><!-- Pixel blue -->
 
-    <color name="material_blue_grey_800">#ff37474f</color>
-    <color name="material_blue_grey_900">#ff263238</color>
+    <color name="material_blue_grey_800">#ff3e4147</color><!-- Pixel light grey -->
+    <color name="material_blue_grey_900">#ff2a2c31</color><!-- Pixel dark grey -->
     <color name="material_blue_grey_950">#ff21272b</color>
 
     <!-- Time picker defaults when no theme is set -->
