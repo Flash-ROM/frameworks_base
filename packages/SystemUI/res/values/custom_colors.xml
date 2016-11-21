@@ -23,7 +23,7 @@
     <color name="navbutton_ripple_color">#FFFFFFFF</color>
 
     <!-- QS edit page background color -->
-    <color name="qs_edit_item_decoration_bg">#ff384248</color>
+    <color name="qs_edit_item_decoration_bg">@*android:color/material_blue_grey_800</color><!-- Pixel light grey -->
 
     <!-- Nav bar tuner colors -->
     <color name="navbar_tuner_background_color">@android:color/white</color>
