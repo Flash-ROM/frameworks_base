@@ -587,8 +587,10 @@ public class JobServiceContext extends IJobCallback.Stub implements ServiceConne
                 completedJob = mRunningJob;
                 mJobPackageTracker.noteInactive(completedJob);
                 try {
-                    mBatteryStats.noteJobFinish(mRunningJob.getBatteryName(),
-                            mRunningJob.getSourceUid());
+                    if (completedJob != null) {
+                        mBatteryStats.noteJobFinish(completedJob.getBatteryName(),
+                                completedJob.getSourceUid());
+                    }
                 } catch (RemoteException e) {
                     // Whatever.
                 }
