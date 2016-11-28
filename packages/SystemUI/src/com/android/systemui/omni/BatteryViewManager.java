@@ -191,9 +191,9 @@ public class BatteryViewManager {
 
     public void update() {
         final int batteryStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUSBAR_BATTERY_STYLE, 0, UserHandle.USER_CURRENT);
+                Settings.System.STATUSBAR_BATTERY_STYLE, 2, UserHandle.USER_CURRENT);
         final int showPercent = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUSBAR_BATTERY_PERCENT, 2, UserHandle.USER_CURRENT);
+                Settings.System.STATUSBAR_BATTERY_PERCENT, 0, UserHandle.USER_CURRENT);
         final boolean percentInside = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUSBAR_BATTERY_PERCENT_INSIDE, 0, UserHandle.USER_CURRENT) != 0;
         final boolean chargingImage = Settings.System.getIntForUser(mContext.getContentResolver(),
