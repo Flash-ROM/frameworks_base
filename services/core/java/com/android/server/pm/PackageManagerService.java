@@ -4486,6 +4486,7 @@ public class PackageManagerService extends IPackageManager.Stub {
                         || actionName.startsWith("com.android.server.sip.SipWakeupTimer")
                         || actionName.startsWith("com.android.internal.telephony.data-reconnect")
                         || actionName.startsWith("android.net.netmon.launchCaptivePortalApp")
+                        || actionName.startsWith("org.omnirom.omniswitch")
                         || actionName.startsWith("intent_navbar_edit")) {
                     return true;
                 }
