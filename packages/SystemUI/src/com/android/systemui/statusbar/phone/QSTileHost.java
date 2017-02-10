@@ -56,6 +56,7 @@ import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
+import com.android.systemui.qs.tiles.HighBrightnessTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
@@ -92,7 +93,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Platform implementation of the quick settings tile host **/
 public class QSTileHost implements QSTile.Host, Tunable {
     private static final String TAG = "QSTileHost";
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
@@ -119,6 +119,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
     private final BatteryController mBattery;
     private final StatusBarIconController mIconController;
     private final TileServices mServices;
+    private final boolean mHighBrightnessSupported;
 
     private final List<Callback> mCallbacks = new ArrayList<>();
     private final AutoTileManager mAutoTiles;
@@ -128,14 +129,15 @@ public class QSTileHost implements QSTile.Host, Tunable {
     private int mCurrentUser;
 
     public QSTileHost(Context context, PhoneStatusBar statusBar,
-            BluetoothController bluetooth, LocationController location,
-            RotationLockController rotation, NetworkController network,
-            ZenModeController zen, HotspotController hotspot,
-            CastController cast, FlashlightController flashlight,
-            UserSwitcherController userSwitcher, UserInfoController userInfo,
-            KeyguardMonitor keyguard, SecurityController security,
-            BatteryController battery, StatusBarIconController iconController,
-            NextAlarmController nextAlarmController) {
+                      BluetoothController bluetooth, LocationController location,
+                      RotationLockController rotation, NetworkController network,
+                      ZenModeController zen, HotspotController hotspot,
+                      CastController cast, FlashlightController flashlight,
+                      UserSwitcherController userSwitcher, UserInfoController userInfo,
+                      KeyguardMonitor keyguard, SecurityController security,
+                      BatteryController battery, StatusBarIconController iconController,
+                      NextAlarmController nextAlarmController) {
+
         mContext = context;
         mStatusBar = statusBar;
         mBluetooth = bluetooth;
@@ -154,6 +156,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         mIconController = iconController;
         mNextAlarmController = nextAlarmController;
         mProfileController = new ManagedProfileController(this);
+        mHighBrightnessSupported = mContext.getResources().getBoolean(com.android.internal.R.bool.config_supportHighBrightness);
 
         final HandlerThread ht = new HandlerThread(QSTileHost.class.getSimpleName(),
                 Process.THREAD_PRIORITY_BACKGROUND);
@@ -451,6 +454,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
+        else if (tileSpec.equals("high_brightness") && mHighBrightnessSupported) return new HighBrightnessTile(this);
         else if (tileSpec.equals("navigation_bar")) return new NavigationBarTile(this);
         else if (tileSpec.equals("nfc")) return new NfcTile(this);
         else if (tileSpec.equals("reboot")) return new RebootTile(this);
