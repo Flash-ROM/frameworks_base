@@ -7228,6 +7228,12 @@ public final class Settings {
         public static final String DOUBLE_TAP_TO_WAKE = "double_tap_to_wake";
 
         /**
+         * Controls whether high brightness mode via a QS tile
+         * @hide
+         */
+        public static final String HIGH_BRIGHTNESS_MODE = "high_brightness_mode";
+
+        /**
          * The current assistant component. It could be a voice interaction service,
          * or an activity that handles ACTION_ASSIST, or empty which means using the default
          * handling.
@@ -7578,6 +7584,7 @@ public final class Settings {
             MOUNT_UMS_NOTIFY_ENABLED,
             SLEEP_TIMEOUT,
             DOUBLE_TAP_TO_WAKE,
+            HIGH_BRIGHTNESS_MODE,
             WAKE_GESTURE_ENABLED,
             LONG_PRESS_TIMEOUT,
             CAMERA_GESTURE_DISABLED,
