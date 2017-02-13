@@ -103,7 +103,6 @@
 
     <!-- High Brightness Mode Tile -->
     <string name="quick_settings_high_brightness">High brightness</string>
-    <string name="high_brightness_warning">HBM activated, overriding current brightness settings</string>
 
     <!-- Reboot/Recovery QS Tile -->
     <string name="quick_settings_reboot_label">Reboot</string>
