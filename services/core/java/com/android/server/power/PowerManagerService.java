@@ -2173,6 +2173,10 @@ public final class PowerManagerService extends SystemService
             screenAutoBrightnessAdjustment = Math.max(Math.min(
                     screenAutoBrightnessAdjustment, 1.0f), -1.0f);
 
+            if (mSupportsHighBrightnessModeConfig && mHighBrightnessModeEnabled) {
+                nativeSetFeature(POWER_FEATURE_HIGH_BRIGHTNESS_MODE, 1);
+            }
+
             // Update display power request.
             mDisplayPowerRequest.screenBrightness = screenBrightness;
             mDisplayPowerRequest.screenAutoBrightnessAdjustment =
