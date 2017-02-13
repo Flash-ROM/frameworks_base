@@ -22,10 +22,8 @@ import android.net.Uri;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.systemui.R;
-import com.android.systemui.SysUIToast;
 import com.android.systemui.qs.QSTile;
 
 import com.android.internal.logging.MetricsProto.MetricsEvent;
@@ -110,10 +108,6 @@ public class HighBrightnessTile extends QSTile<QSTile.BooleanState> {
             case HIGH_BRIGHTNESS_MODE_OFF:
                 Settings.Secure.putInt(mContext.getContentResolver(),
                         HIGH_BRIGHTNESS_MODE, HIGH_BRIGHTNESS_MODE_ON);
-                mHost.collapsePanels();
-                SysUIToast.makeText(mContext, mContext.getString(
-                        R.string.high_brightness_warning),
-                        Toast.LENGTH_LONG).show();
                 break;
             case HIGH_BRIGHTNESS_MODE_ON:
                 Settings.Secure.putInt(mContext.getContentResolver(),
