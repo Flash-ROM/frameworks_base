@@ -7544,6 +7544,12 @@ public final class Settings {
          */
         public static final String TEXT_CHARGING_SYMBOL = "text_charging_symbol";
 
+        /*
+         * Force authorize Substratum (or equivalent) frontend calling packages by Masquerade
+         * @hide
+         */
+        public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages";
+
         /**
          * This are the settings to be backed up.
          *
