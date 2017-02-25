@@ -4039,6 +4039,11 @@ public final class Settings {
                 "notification_light_screen_on_enable";
 
         /**
+         * @hide
+         */
+        public static final String OMNIJAWS_WEATHER_ICON_PACK = "omnijaws_weather_icon_pack";
+
+        /**
          * Whether the proximity sensor will adjust call to speaker
          * @hide
          */
