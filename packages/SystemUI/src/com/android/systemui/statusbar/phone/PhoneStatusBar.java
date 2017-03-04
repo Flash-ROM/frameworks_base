@@ -613,6 +613,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mHeader != null) {
                 mHeader.updateSettings();
             }
+            mClockLocation = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUSBAR_CLOCK_STYLE, 0, UserHandle.USER_CURRENT);
         }
     }
 
@@ -696,9 +698,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         public void update() {
             mStatusBarWindowManager.updateKeyguardScreenRotation();
         }
-
-        mClockLocation = Settings.System.getIntForUser(resolver,
-                Settings.System.STATUSBAR_CLOCK_STYLE, 0, UserHandle.USER_CURRENT);
     }
     private OmniSettingsObserver mOmniSettingsObserver = new OmniSettingsObserver(mHandler);
     private int mInteractingWindows;
@@ -1109,8 +1108,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_SHOW_TICKER,
-                mContext.getResources().getBoolean(R.bool.enable_ticker)
-                        ? 1 : 1, UserHandle.USER_CURRENT) == 1;
+                0, UserHandle.USER_CURRENT) == 1;
         initTickerView();
 
         // set the initial view visibility
