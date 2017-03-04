@@ -4362,6 +4362,7 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_SHOW_TICKER = "status_bar_show_ticker";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
