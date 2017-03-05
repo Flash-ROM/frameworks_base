@@ -69,9 +69,13 @@ public class FlashUtils {
     public static final String ACTION_TOGGLE_OVERLAY = APP_PACKAGE_NAME + ".ACTION_TOGGLE_OVERLAY";
 
     /**
+     * Intent broadcast action for restoring the home stack
+     */
+    public static final String ACTION_RESTORE_HOME_STACK = APP_PACKAGE_NAME + ".ACTION_RESTORE_HOME_STACK";
+
+    /**
      * Intent for launching the omniswitch settings actvity
      */
     public static Intent INTENT_LAUNCH_APP = new Intent(Intent.ACTION_MAIN)
             .setClassName(APP_PACKAGE_NAME, APP_PACKAGE_NAME + ".SettingsActivity");
-
 }
