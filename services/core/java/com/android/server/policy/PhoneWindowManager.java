@@ -153,6 +153,7 @@ import com.android.internal.utils.du.DUActionUtils;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.utils.du.ActionHandler;
 import com.android.internal.utils.du.DUSystemReceiver;
+import com.android.internal.util.flash.FlashUtils;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.GestureLauncherService;
 import com.android.server.LocalServices;
@@ -726,6 +727,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mScreenrecordChordEnabled;
     private boolean mScreenrecordChordVolumeUpKeyConsumed;
     private boolean mScreenrecordChordType;
+
+    // OmniSwitch recents enabled
+    private boolean mOmniSwitchRecents;
 
     /* The number of steps between min and max brightness */
     private static final int BRIGHTNESS_STEPS = 10;
@@ -2210,7 +2214,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.KEYGUARD_TOGGLE_TORCH, 0, UserHandle.USER_CURRENT) == 1);
             mScreenrecordChordType = (Settings.System.getIntForUser(resolver,
                     Settings.System.SCREENRECORD_CHORD_TYPE, 0, UserHandle.USER_CURRENT) == 1);
-
+            mOmniSwitchRecents = (Settings.System.getIntForUser(resolver,
+                    Settings.System.RECENTS_USE_OMNISWITCH, 0, UserHandle.USER_CURRENT) == 1);
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             WindowManagerPolicyControl.reloadFromSetting(mContext);
@@ -3939,10 +3944,20 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void showRecentApps(boolean triggeredFromAltTab, boolean fromHome) {
-        mPreloadedRecentApps = false; // preloading no longer needs to be canceled
-        StatusBarManagerInternal statusbar = getStatusBarManagerInternal();
-        if (statusbar != null) {
-            statusbar.showRecentApps(triggeredFromAltTab, fromHome);
+        if (mOmniSwitchRecents) {
+            if (fromHome) {
+                Intent showIntent = new Intent(FlashUtils.ACTION_RESTORE_HOME_STACK);
+                mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
+            } else {
+                Intent showIntent = new Intent(FlashUtils.ACTION_TOGGLE_OVERLAY);
+                mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
+            }
+        } else {
+            mPreloadedRecentApps = false; // preloading no longer needs to be canceled
+            StatusBarManagerInternal statusbar = getStatusBarManagerInternal();
+            if (statusbar != null) {
+                statusbar.showRecentApps(triggeredFromAltTab, fromHome);
+            }
         }
     }
 
