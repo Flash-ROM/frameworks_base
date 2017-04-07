@@ -588,7 +588,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mTickerEnabled = Settings.System.getIntForUser(
                             mContext.getContentResolver(),
                             Settings.System.STATUS_BAR_SHOW_TICKER,
-                            0, UserHandle.USER_CURRENT) == 1;
+                            1, UserHandle.USER_CURRENT) == 1;
                     initTickerView();
             }
             update();
@@ -671,7 +671,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             Log.d(TAG, "heads up is " + (mUseHeadsUp ? "enabled" : "disabled"));
             mHeadsUpUserEnabled = 0 != Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.HEADS_UP_USER_ENABLED,
-                    Settings.System.HEADS_UP_USER_ON,
+                    Settings.System.HEADS_UP_USER_OFF,
                     UserHandle.USER_CURRENT);
             Log.d(TAG, "heads up is " + (mUseHeadsUp && mHeadsUpUserEnabled ? "enabled" : "disabled"));
             if (wasUsing != mUseHeadsUp) {
@@ -1138,7 +1138,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_SHOW_TICKER,
-                0, UserHandle.USER_CURRENT) == 1;
+                1, UserHandle.USER_CURRENT) == 1;
         initTickerView();
 
         // set the initial view visibility
