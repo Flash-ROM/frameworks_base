@@ -166,4 +166,5 @@
     <string name="omnijaws_label_default">Weather</string>
     <string name="omnijaws_current_text">Now</string>
     <string name="omnijaws_package_not_available">OmniJaws not available</string>
+    <string name="omnijaws_service_error_long">Error loading weather data</string>
 </resources>
